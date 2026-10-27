@@ -21,10 +21,13 @@ jobs:
           gradle-version: 8.7
 
       - name: Build debug APK
-        working-directory: SaraVoiceLock
-        run: gradle assembleDebug --no-daemon
+        run: |
+          DIR=$(dirname "$(find . -name settings.gradle.kts | head -1)")
+          echo "Project folder: $DIR"
+          cd "$DIR"
+          gradle assembleDebug --no-daemon
 
       - uses: actions/upload-artifact@v4
         with:
           name: SaraVoiceLock-apk
-          path: SaraVoiceLock/app/build/outputs/apk/debug/app-debug.apk
+          path: "**/app-debug.apk"
